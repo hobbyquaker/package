@@ -1,0 +1,58 @@
+{
+    "name": "$NAME",
+    "version": "0.0.0",
+    "description": "Node Package Skeleton",
+    "repository": "https://github.com/hobbyquaker/$NAME",
+    "keywords": [],
+    "main": "none",
+    "engines": {
+        "node": ">= 10.0.0"
+    },
+    "scripts": {
+        "checkgit": "(git diff --exit-code && git diff --cached --exit-code && git diff --exit-code origin/master..master) 1> /dev/null",
+        "prepublishOnly": "npm run checkgit --silent",
+        "postpublish": "git tag v$(jq -r '.version' package.json) && git push --no-verify --tags",
+        "test": "camo-purge; xo && nyc mocha \"test/**/*_spec.js\" --exit && nyc report --reporter=text-lcov | coveralls --force",
+        "lintfix": "xo --fix",
+        "lintonly": "xo",
+        "testonly": "mocha \"test/**/*_spec.js\" --exit",
+        "testcov": "nyc mocha \"test/**/*_spec.js\" --exit"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run lintonly",
+            "pre-push": "npm run lintonly && npm run testonly"
+        }
+    },
+    "author": "Sebastian Raff <hobbyquaker@gmail.com>",
+    "license": "MIT",
+    "dependencies": {},
+    "devDependencies": {
+        "camo-purge": "latest",
+        "coveralls": "latest",
+        "eslint-plugin-html": "latest",
+        "husky": "latest",
+        "mocha": "latest",
+        "nyc": "latest",
+        "should": "latest",
+        "xo": "latest"
+    },
+    "xo": {
+        "space": 4,
+        "plugin": "html",
+        "global": [],
+        "extensions": [
+            "js",
+            "html"
+        ],
+        "rules": {
+            "camelcase": "warn",
+            "capitalized-comments": 0,
+            "spaced-comment": 0,
+            "unicorn/catch-error-name": "warn",
+            "valid-jsdoc": "warn",
+            "eslint-comments/no-unused-disable": "warn",
+            "promise/prefer-await-to-then": "warn"
+        }
+    }
+}
