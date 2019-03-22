@@ -1,6 +1,7 @@
 {
     "name": "$NAME",
     "version": "0.0.0",
+    "private": true,
     "description": "Node Package Skeleton",
     "repository": "https://github.com/hobbyquaker/$NAME",
     "keywords": [],
